@@ -8,17 +8,25 @@ from pyrogram.errors import FloodWait, UserNotParticipant
 import json
 import os
 import sys
+from dotenv import load_dotenv   # <--- add this
+
+# Load environment variables
+load_dotenv()
+
+API_ID = int(os.getenv("API_ID"))
+API_HASH = os.getenv("API_HASH")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 # Bot configuration
 app = Client(
-    "danatani_userbot",
-    api_id=20321413,
-    api_hash="fd4966d99666af0f84d2e8efb445e270",
-    bot_token="7750857440:AAEtnYo8oyWxx6dyWTasVMjVxNtSeag-DaQ"
+    "sanatani_userbot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN
 )
 
-OWNER_USERNAME = "innocenthr7"
-OWNER_ID = 7234484940
+OWNER_USERNAME = os.getenv("OWNER_USERNAME", "teralover7")
+OWNER_ID = int(os.getenv("OWNER_ID", "7653172279"))
 active_raids = {}
 active_clones = {}  # Store active clone sessions
 sudo_users = set()
