@@ -698,7 +698,7 @@ async def main():
 
     # Run Pyrogram + Telethon together
     await asyncio.gather(
-        app.start(),
+        app.idle(),
         telethon_client.run_until_disconnected()
     )
 
