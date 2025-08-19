@@ -668,6 +668,40 @@ async def get_info(client, message):
     full_info = user_info + chat_info + session_info + "╰─────────────────"
     await message.reply_text(full_info)
 
-start_time = time.time()
-print("Bot starting...")
-app.run()
+import time
+import asyncio
+import os
+from telethon import TelegramClient, events
+from pyrogram import Client as PyroClient
+
+# Pyrogram setup
+app = PyroClient(
+    "my_bot",
+    api_id=int(os.getenv("API_ID")),
+    api_hash=os.getenv("API_HASH"),
+    bot_token=os.getenv("BOT_TOKEN")
+)
+
+# Telethon setup
+telethon_client = TelegramClient("bot", int(os.getenv("API_ID")), os.getenv("API_HASH"))
+
+async def main():
+    print("Bot starting...")
+
+    # Start Pyrogram aur Telethon ek sath
+    await telethon_client.start(bot_token=os.getenv("BOT_TOKEN"))
+
+    # Example: Telethon handler
+    @telethon_client.on(events.NewMessage(pattern="/ping"))
+    async def handler(event):
+        await event.respond("Pong! ✅ (Telethon)")
+
+    # Run Pyrogram + Telethon together
+    await asyncio.gather(
+        app.start(),
+        telethon_client.run_until_disconnected()
+    )
+
+if __name__ == "__main__":
+    start_time = time.time()
+    asyncio.run(main())
