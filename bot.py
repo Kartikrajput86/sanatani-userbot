@@ -696,12 +696,13 @@ async def main():
     async def handler(event):
         await event.respond("Pong! ✅ (Telethon)")
 
-    # Run Pyrogram + Telethon together
-    await asyncio.gather(
-        app.idle(),
-        telethon_client.run_until_disconnected()
-    )
+# Run Pyrogram + Telethon together
+await asyncio.gather(
+    asyncio.Event().wait(),   # Pyrogram ko idle rakhne ka naya method
+    telethon_client.run_until_disconnected()
+)
 
 if __name__ == "__main__":
     start_time = time.time()
     asyncio.run(main())
+
