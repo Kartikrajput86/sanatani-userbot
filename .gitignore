@@ -8,6 +8,7 @@ __pycache__/
 env/
 venv/
 ENV/
+.env
 
 # Session files
 *.session
