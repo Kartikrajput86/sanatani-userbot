@@ -688,21 +688,26 @@ telethon_client = TelegramClient("bot", int(os.getenv("API_ID")), os.getenv("API
 async def main():
     print("Bot starting...")
 
-    # Start Pyrogram aur Telethon ek sath
+    # Pyrogram ko start karo
+    await app.start()
+
+    # Telethon ko start karo
     await telethon_client.start(bot_token=os.getenv("BOT_TOKEN"))
 
-    # Example: Telethon handler
+    # Example handler (Telethon)
     @telethon_client.on(events.NewMessage(pattern="/ping"))
     async def handler(event):
         await event.respond("Pong! ✅ (Telethon)")
 
-# Run Pyrogram + Telethon together
-await asyncio.gather(
-    asyncio.Event().wait(),   # Pyrogram ko idle rakhne ka naya method
-    telethon_client.run_until_disconnected()
-)
+    # Run Pyrogram + Telethon together
+    await asyncio.gather(
+        asyncio.Event().wait(),   # Pyrogram ko idle rakhne ke liye
+        telethon_client.run_until_disconnected()
+    )
+
 
 if __name__ == "__main__":
     start_time = time.time()
     asyncio.run(main())
+
 
